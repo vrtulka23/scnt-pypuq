@@ -1,0 +1,3 @@
+/Users/perseus/Projects/pypuq/build/CMakeFiles/pypuq2.dir
+/Users/perseus/Projects/pypuq/build/CMakeFiles/edit_cache.dir
+/Users/perseus/Projects/pypuq/build/CMakeFiles/rebuild_cache.dir
