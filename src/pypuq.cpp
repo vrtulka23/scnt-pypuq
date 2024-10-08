@@ -4,6 +4,8 @@
 #include <pybind11/operators.h>
 #include <variant>
 #include <scnt-puq/quantity.h>
+#include <scnt-puq/calc/calc.h>
+#include <scnt-puq/systems/lists.h>
 
 namespace py = pybind11;
 
@@ -43,6 +45,12 @@ std::variant<double, std::vector<double>, py::array_t<double>> quantity_error(pu
   }
 }
 
+puq::Quantity calculator(std::string e) {
+  auto calc = puq::Calculator();
+  auto atom = calc.solve(e);
+  return atom.value;
+}
+
 PYBIND11_MODULE(pypuq, m) {
     m.doc() = "Physical Units and Quantities"; 
 
@@ -64,7 +72,18 @@ PYBIND11_MODULE(pypuq, m) {
     d.value("CGS", puq::Dformat::CGS);
     d.value("FPS", puq::Dformat::FPS);
     d.export_values();
-    
+
+    // Exposing lists
+    auto lists = m.def_submodule("lists", "Unit system lists");
+    lists.def("prefixes", &puq::lists::prefixes);
+    lists.def("base_units", &puq::lists::base_units);
+    lists.def("derived_units", &puq::lists::derived_units);
+    lists.def("logarithmic_units", &puq::lists::logarithmic_units);
+    lists.def("temperature_units", &puq::lists::temperature_units);
+    lists.def("constants", &puq::lists::constants);
+    lists.def("quantities", &puq::lists::quantities);
+    lists.def("unit_systems", &puq::lists::unit_systems);
+
     // Expose UnitSystem
     py::class_<puq::UnitSystem>(m, "UnitSystemBase")
       .def(py::init<const puq::SystemType>())
@@ -79,9 +98,12 @@ PYBIND11_MODULE(pypuq, m) {
       .def("__enter__", &UnitSystem::enter)
       .def("__exit__", &UnitSystem::exit)
       ;
+
+    // Exposing calculator object
+    m.def("Calculator", &calculator, py::arg("expression"));
     
     // Exposing quantity object
-    py::class_<puq::Quantity>(m, "Q")
+    py::class_<puq::Quantity>(m, "Quantity")
       .def(py::init<std::string>())
       .def(py::init<std::string, puq::SystemType>())
       .def(py::init<double>())

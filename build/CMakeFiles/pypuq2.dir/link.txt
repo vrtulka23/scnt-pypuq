@@ -1,1 +1,0 @@
-/Library/Developer/CommandLineTools/usr/bin/c++  -Wno-deprecated -O3 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.0.sdk -bundle -Wl,-headerpad_max_install_names -Xlinker -undefined -Xlinker dynamic_lookup -flto -o pypuq2.cpython-312-darwin.so CMakeFiles/pypuq2.dir/src/pypuq.cpp.o  /opt/homebrew/lib/scnt-puq/libpuq-cpp.a

@@ -56,7 +56,7 @@ function show_help {
     echo " -h|--help           show this help"
     echo " -B|--build-pypi     build PyPi distribution"
     echo " -U|--upload-pypi    upload distribution to Pypi"
-    echo " -T|--pytest         run pytest"
+    echo " -t|--pytest         run pytest"
     echo ""
     echo "Examples:"
     echo "./setup.sh -c -b               clean and build the code"
@@ -88,7 +88,7 @@ while [[ $# -gt 0 ]]; do
 	-U|--upload-pypi)
 	    twine upload dist/*
 	    shift;;
-	-T|--pytest)
+	-t|--pytest)
 	    pytest
 	    shift;;
 	-*|--*)

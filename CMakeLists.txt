@@ -6,13 +6,13 @@ set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -Wno-deprecated -O3")
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-set(PROJECT_NAME pypuq2)
+set(MODULE_NAME pypuq2)
 #set(CMAKE_INSTALL_PREFIX "${CMAKE_BINARY_DIR}/install")
 set(CMAKE_INSTALL_BINDIR bin)
 set(CMAKE_INSTALL_LIBDIR lib)
 set(CMAKE_INSTALL_INCLUDEDIR include)
 
-project(pypuq2 VERSION 1.0 LANGUAGES CXX)
+project(pypuq VERSION 1.0 LANGUAGES CXX)
 
 # compile libraries and executables
 ###################################
@@ -28,7 +28,7 @@ find_package(Python3 COMPONENTS Interpreter Development REQUIRED)
 include_directories(${Python3_INCLUDE_DIRS})
 find_package(pybind11 CONFIG)
 
-pybind11_add_module(${PROJECT_NAME} src/pypuq.cpp)
-target_link_libraries(${PROJECT_NAME} PRIVATE puq-cpp)
-target_compile_definitions(${PROJECT_NAME} PRIVATE CODE_VERSION="${CODE_VERSION}")
+pybind11_add_module(${MODULE_NAME} src/pypuq.cpp)
+target_link_libraries(${MODULE_NAME} PRIVATE puq-cpp)
+target_compile_definitions(${MODULE_NAME} PRIVATE CODE_VERSION="${CODE_VERSION}")
 

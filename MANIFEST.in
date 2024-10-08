@@ -1,0 +1,6 @@
+include CMakeLists.txt
+include settings.env
+recursive-include src *
+recursive-include exec *
+recursive-include gtest *
+recursive-include benchmark *
