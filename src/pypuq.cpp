@@ -118,9 +118,10 @@ PYBIND11_MODULE(pypuq, m) {
       .def(py::init<puq::ArrayValue, puq::ArrayValue>())
       .def(py::init<puq::ArrayValue, puq::ArrayValue, std::string>())
       .def(py::init<puq::ArrayValue, puq::ArrayValue, std::string, puq::SystemType>())
-      .def("convert", py::overload_cast<std::string, const puq::SystemType, const std::string&>(&puq::Quantity::convert, py::const_),
+      .def("convert", py::overload_cast<std::string, puq::SystemType, const std::string&>(&puq::Quantity::convert, py::const_),
 	   py::arg("expression"), py::arg("system")=puq::SystemType::NONE, py::arg("quantity")="")
-      .def("convert", py::overload_cast<const puq::Dformat&>(&puq::Quantity::convert, py::const_))
+      .def("convert", py::overload_cast<const puq::Dformat&, puq::SystemType>(&puq::Quantity::convert, py::const_),
+	   py::arg("dformat"), py::arg("system")=puq::SystemType::NONE) 
       .def("unit_system", &puq::Quantity::unit_system)
       .def("rebase_prefixes", &puq::Quantity::rebase_prefixes)
       .def("rebase_dimensions", &puq::Quantity::rebase_dimensions)
