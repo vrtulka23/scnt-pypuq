@@ -89,7 +89,8 @@ while [[ $# -gt 0 ]]; do
 	    twine upload dist/*
 	    shift;;
 	-t|--pytest)
-	    pytest
+	    pytest $2;
+	    shift;
 	    shift;;
 	-*|--*)
 	    show_help; exit 1;;

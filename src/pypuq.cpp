@@ -75,14 +75,14 @@ PYBIND11_MODULE(pypuq, m) {
 
     // Exposing lists
     auto lists = m.def_submodule("lists", "Unit system lists");
-    lists.def("prefixes", &puq::lists::prefixes);
-    lists.def("base_units", &puq::lists::base_units);
-    lists.def("derived_units", &puq::lists::derived_units);
-    lists.def("logarithmic_units", &puq::lists::logarithmic_units);
-    lists.def("temperature_units", &puq::lists::temperature_units);
-    lists.def("constants", &puq::lists::constants);
-    lists.def("quantities", &puq::lists::quantities);
-    lists.def("unit_systems", &puq::lists::unit_systems);
+    lists.def("prefixes", [](){py::print(puq::lists::prefixes());});
+    lists.def("base_units", [](){py::print(puq::lists::base_units());});
+    lists.def("derived_units", [](){py::print(puq::lists::derived_units());});
+    lists.def("logarithmic_units", [](){py::print(puq::lists::logarithmic_units());});
+    lists.def("temperature_units", [](){py::print(puq::lists::temperature_units());});
+    lists.def("constants", [](){py::print(puq::lists::constants());});
+    lists.def("quantities", [](){py::print(puq::lists::quantities());});
+    lists.def("unit_systems", [](){py::print(puq::lists::unit_systems());});
 
     // Expose UnitSystem
     py::class_<puq::UnitSystem>(m, "UnitSystemBase")

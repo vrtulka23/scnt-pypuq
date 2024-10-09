@@ -12,13 +12,50 @@ sys.modules["pypuq"] = pp
 
 from pypuq.lists import *
 
-def test_lists():
+def test_prefixes(capfd):
 
-    assert prefixes()          != ""
-    assert base_units()        != ""
-    assert derived_units()     != ""
-    assert logarithmic_units() != ""
-    assert temperature_units() != ""
-    assert constants()         != ""
-    assert quantities()        != ""
-    assert unit_systems()      != ""
+    prefixes()    
+    captured = capfd.readouterr()
+    assert captured.out != ""
+    
+def test_base_units(capfd):
+    
+    base_units()  
+    captured = capfd.readouterr()
+    assert captured.out != ""
+    
+def test_derived_units(capfd):
+    
+    derived_units()
+    captured = capfd.readouterr()
+    assert captured.out != ""
+    
+def test_logarithmic_units(capfd):
+    
+    logarithmic_units()
+    captured = capfd.readouterr()
+    assert captured.out != ""
+    
+def test_temperature_units(capfd):
+    
+    temperature_units()
+    captured = capfd.readouterr()
+    assert captured.out != ""
+    
+def test_constants(capfd):
+    
+    constants()   
+    captured = capfd.readouterr()
+    assert captured.out != ""
+    
+def test_quantities(capfd):
+    
+    quantities()  
+    captured = capfd.readouterr()
+    assert captured.out != ""
+    
+def test_systems(capfd):
+    
+    unit_systems()
+    captured = capfd.readouterr()
+    assert captured.out != ""
