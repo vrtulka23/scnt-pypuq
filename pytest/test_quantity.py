@@ -14,7 +14,7 @@ from pypuq import Quantity, UnitSystem
 from pypuq.systems import US, ESU, EMU
 from pypuq.formats import MKS, MGS, CGS, FPS
 
-def test_init_scalars():
+def test_init():
 
     # initialize with a number/string pair
     q = Quantity(23)    
@@ -30,7 +30,7 @@ def test_init_scalars():
     q = Quantity('23*ft', US)
     assert q.to_string() == "23*ft"
 
-def test_init_arrays():
+def test_init_list():
 
     # initialize with an list/string pair
     q = Quantity([2,3,4])    
@@ -41,20 +41,28 @@ def test_init_arrays():
     q = Quantity([2.,3.,4.], 'ft', US)    
     assert q.to_string() == "{2, 3, ...}*ft"
 
-    # initialize with a numpy array
-    q = Quantity(np.array([2,3,4]))
-    assert q.to_string() == "{2, 3, ...}"
-    
     # initialize with a string
     q = Quantity('{2,3,4}*ft', US)
     assert q.to_string() == "{2, 3, ...}*ft"
+
+def test_init_numpy():
     
-def test_init_arrays_errors():
-    
-    # initialize with an list/string pair
-    q = Quantity([2.34,3.45,4.56],[0.1,0.2,0.3], 'km')    
-    assert q.to_string() == "{2.34(10), 3.45(20), ...}*km"
-    
+    # initialize with a numpy array
+    q = Quantity(np.array([2,3,4]))            # integers
+    assert q.to_string() == "{2, 3, ...}"
+    q = Quantity(np.array([2,3,4]),"km")       
+    assert q.to_string() == "{2, 3, ...}*km"
+    q = Quantity(np.array([2,3,4]),"ft", US)       
+    assert q.to_string() == "{2, 3, ...}*ft"
+    q = Quantity(np.array([2.,3.,4.]),"km")    # doubles
+    assert q.to_string() == "{2, 3, ...}*km"
+
+    # multidimensional arrays
+    # TODO: preserve shape!
+    q = Quantity(np.array([[2,3,4],[5,6,7]]),"km")       
+    assert q.to_string() == "{2, 3, ...}*km"
+    assert q.size() == 6
+
 def test_init_errors():
 
     q = Quantity(23.34, 0.2)
@@ -63,6 +71,33 @@ def test_init_errors():
     assert q.to_string() == "2.334(20)e+01*km"
     q = Quantity(23.34, 0.2, 'ft', US)
     assert q.to_string() == "2.334(20)e+01*ft"
+    
+def test_init_errors_list():
+    
+    # initialize with an list/string pair
+    q = Quantity([2,3,4],[1,2,3], 'km')                  # integers
+    assert q.to_string() == "{2.0(10), 3.0(20), ...}*km"
+    q = Quantity([2,3,4],[1,2,3], 'ft', US) 
+    assert q.to_string() == "{2.0(10), 3.0(20), ...}*ft"
+    q = Quantity([2.34,3.45,4.56],[0.1,0.2,0.3], 'km')   # doubles
+    assert q.to_string() == "{2.34(10), 3.45(20), ...}*km"
+
+def test_init_errors_numpy():
+    
+    # initialize with a numpy array
+    q = Quantity(np.array([2,3,4]),
+                 np.array([1,2,3]), 'km')         # integers
+    assert q.to_string() == "{2.0(10), 3.0(20), ...}*km"
+    q = Quantity(np.array([2.34,3.45,4.56]),
+                 np.array([0.1,0.2,0.3]), 'km')   # doubles
+    assert q.to_string() == "{2.34(10), 3.45(20), ...}*km"
+    
+    # multidimensional arrays
+    # TODO: preserve shape!
+    q = Quantity(np.array([[2,3,4],[5,6,7]]),
+                 np.array([[1,2,3],[4,5,6]]),"km")     
+    assert q.to_string() == "{2.0(10), 3.0(20), ...}*km"
+    assert q.size() == 6
     
 def test_string():
 
@@ -148,7 +183,7 @@ def test_rebase_units():
     q = q.rebase_dimensions()
     assert q.to_string() == "1.4298e+14*km3*s"
 
-def test_magnitude_output():
+def test_magnitude():
 
     # return scalar value
     q = Quantity("23.45(12)*km")
@@ -164,3 +199,14 @@ def test_magnitude_output():
     q = Quantity("{2.23(12),3.5,4.48(94),5.293}*km")
     np.testing.assert_almost_equal(q.value(numpy=True), [2.23, 3.5, 4.48, 5.293])
     np.testing.assert_almost_equal(q.error(numpy=True), [0.12, 0, 0.94, 0])
+
+def test_magnitude_numpy():
+
+    # convert to scalar
+    q = Quantity("23.45(12)*km")
+    assert str(np.array(q)) == "[23.45]"
+
+    # convert to array
+    q = Quantity("{2.23(12),3.5,4.48(94),5.293}*km")
+    assert str(np.array(q)) == "[2.23  3.5   4.48  5.293]"
+    

@@ -20,6 +20,7 @@ project(pypuq VERSION 1.0 LANGUAGES CXX)
 message("Code version: ${CODE_VERSION}")
 
 find_package(SCNT-PUQ REQUIRED)
+message("-- Found scnt-puq: ${SCNT-PUQ_VERSION}")
 
 # create pydipl module for Python
 #################################
