@@ -59,9 +59,13 @@ def test_init_numpy():
 
     # multidimensional arrays
     # TODO: preserve shape!
-    q = Quantity(np.array([[2,3,4],[5,6,7]]),"km")       
+    q = Quantity(np.array([[2,3,4],[5,6,7]]), "km")       
     assert q.to_string() == "{2, 3, ...}*km"
     assert q.size() == 6
+    assert q.shape() == [2, 3]
+    #a = np.array(q)
+    #print(a.shape)
+    #assert a == 1
 
 def test_init_errors():
 
@@ -200,6 +204,12 @@ def test_magnitude():
     np.testing.assert_almost_equal(q.value(numpy=True), [2.23, 3.5, 4.48, 5.293])
     np.testing.assert_almost_equal(q.error(numpy=True), [0.12, 0, 0.94, 0])
 
+    # return correct shape of a multi-dimensionall array
+    q = Quantity(np.array([[1,2,3],[4,5,6]]),'km')
+    q += Quantity(100, 'm')
+    np.testing.assert_almost_equal(q.value(numpy=True), [[1.1,2.1,3.1], [4.1,5.1,6.1]])
+    assert q.value(numpy=True).shape == (2, 3)
+    
 def test_magnitude_numpy():
 
     # convert to scalar

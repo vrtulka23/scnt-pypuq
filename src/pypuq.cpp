@@ -21,7 +21,8 @@ py::array_t<MAGNITUDE_PRECISION> array_to_numpy(puq::Array array) {
   py::array_t<MAGNITUDE_PRECISION> numpy(array.value.size());
   py::buffer_info buf_info = numpy.request();
   MAGNITUDE_PRECISION* ptr = static_cast<MAGNITUDE_PRECISION*>(buf_info.ptr);
-  std::memcpy(ptr, array.value.data(), array.value.size() * sizeof(MAGNITUDE_PRECISION));;
+  std::memcpy(ptr, array.value.data(), array.value.size() * sizeof(MAGNITUDE_PRECISION));
+  numpy.resize(array.shape());
   return numpy;
 }
 
@@ -54,7 +55,10 @@ puq::Array buffer_to_array(py::buffer_info& info) {
   std::copy(static_cast<MAGNITUDE_PRECISION*>(info.ptr),
 	    static_cast<MAGNITUDE_PRECISION*>(info.ptr)+info.size,
 	    a.begin());
-  return puq::Array(a);
+
+  puq::ArrayShape s(info.shape.size());
+  std::copy(info.shape.begin(), info.shape.end(), s.begin());
+  return puq::Array(a, s);
 }
 
 puq::Quantity calculator(std::string e) {
@@ -152,7 +156,7 @@ PYBIND11_MODULE(pypuq, m) {
 			     sizeof(MAGNITUDE_PRECISION),
 			     py::format_descriptor<MAGNITUDE_PRECISION>::format(),
 			     1,
-			     {q.value.magnitude.value.value.size()},
+			     q.value.magnitude.value.shape(),
 			     {sizeof(MAGNITUDE_PRECISION)}
 			     );
     })
@@ -165,6 +169,7 @@ PYBIND11_MODULE(pypuq, m) {
     .def("rebase_dimensions", &puq::Quantity::rebase_dimensions)
     .def("to_string", &puq::Quantity::to_string, py::arg("precision") = 6)
     .def("size", &puq::Quantity::size)
+    .def("shape", &puq::Quantity::shape)
     .def("value", &quantity_value, py::arg("numpy")=false)
     .def("error", &quantity_error, py::arg("numpy")=false)
     .def("__repr__", &puq::Quantity::to_string, py::arg("precision") = 6)
