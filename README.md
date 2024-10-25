@@ -1,4 +1,4 @@
-# Physical units and quantities for Python
+# SciNumTools v3: Physical units and quantities for Python (pypuq)
 
 This module is a Python binding of the [C++ library `scnt-puq`](https://github.com/vrtulka23/scnt-puq).
 You can read more about this module and its functionality in the `SciNumTool` documentation.
