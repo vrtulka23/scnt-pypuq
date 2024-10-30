@@ -5,7 +5,7 @@
 #include <variant>
 #include <scnt-puq/quantity.h>
 #include <scnt-puq/calc/calc.h>
-#include <scnt-puq/systems/lists.h>
+#include <scnt-puq/lists.h>
 
 namespace py = pybind11;
 
@@ -92,14 +92,14 @@ PYBIND11_MODULE(pypuq, m) {
 
   // Exposing lists
   auto lists = m.def_submodule("lists", "Unit system lists");
-  lists.def("prefixes", [](){py::print(puq::lists::prefixes());});
-  lists.def("base_units", [](){py::print(puq::lists::base_units());});
-  lists.def("derived_units", [](){py::print(puq::lists::derived_units());});
-  lists.def("logarithmic_units", [](){py::print(puq::lists::logarithmic_units());});
-  lists.def("temperature_units", [](){py::print(puq::lists::temperature_units());});
-  lists.def("constants", [](){py::print(puq::lists::constants());});
-  lists.def("quantities", [](){py::print(puq::lists::quantities());});
-  lists.def("unit_systems", [](){py::print(puq::lists::unit_systems());});
+  lists.def("prefixes", &puq::lists::prefixes, py::arg("json") = false);
+  lists.def("base_units", &puq::lists::base_units, py::arg("json") = false);
+  lists.def("derived_units", &puq::lists::derived_units, py::arg("json") = false);
+  lists.def("logarithmic_units", &puq::lists::logarithmic_units, py::arg("json") = false);
+  lists.def("temperature_units", &puq::lists::temperature_units, py::arg("json") = false);
+  lists.def("constants", &puq::lists::constants, py::arg("json") = false);
+  lists.def("quantities", &puq::lists::quantities, py::arg("json") = false);
+  lists.def("unit_systems", &puq::lists::unit_systems, py::arg("json") = false);
 
   // Expose UnitSystem
   py::class_<puq::UnitSystem>(m, "UnitSystemBase")

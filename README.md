@@ -1,7 +1,7 @@
 # Physical units and quantities for Python
 
 This module is a Python binding of the [C++ library `scnt-puq`](https://github.com/vrtulka23/scnt-puq).
-You can read more about this module and its functionality in the `SciNumTool` documentation.
+You can read more about this module and its functionality in the `SciNumTool` [documentation](https://vrtulka23.github.io/scnt-docs/).
 
 ## Installation
 
@@ -33,5 +33,5 @@ However, the Python interface of exposed classes (`Quantity`, `UnitSystem`) is s
 0.0717489*m*s-1
 ```
 
-More examples and explanation are available in the documentation.
+More examples and explanation are available in the `SciNumTools` [documentation](https://vrtulka23.github.io/scnt-docs/).
 You can also look at the test problems in the [pytest directory](https://github.com/vrtulka23/scnt-pypuq/tree/main/pytest).

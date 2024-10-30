@@ -5,10 +5,6 @@ set -e
 . settings.env
 DIR_ROOT=$(pwd)
 
-function build_docs {
-    sphinx-build -M html docs/source/ docs/build/
-}
-
 function clean_code {
     if [[ -d $DIR_BUILD ]]; then
 	    rm -r $DIR_BUILD
@@ -48,7 +44,6 @@ function show_help {
     echo "Physical Units and Quantities"
     echo ""
     echo "Options:"
-    echo " -d|--docs           build documentation"
     echo " -c|--clean          clean the build directory"
     echo " -b|--build          build code"
     echo " -i|--install        install puq"
@@ -68,8 +63,6 @@ if [[ "${1}" == "" ]]; then
 fi
 while [[ $# -gt 0 ]]; do
     case $1 in
-	-d|--docs)
-	    build_docs; shift;;
 	-c|--clean)
 	    clean_code; shift;;
 	-b|--build)
